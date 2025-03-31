@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -147,10 +147,12 @@ public class EntryPoint
 
     public static void ThirdTask()
     {
-        Assembly assembly = Assembly.LoadFrom("Lab1Library.dll");
 
+        Assembly assembly = Assembly.LoadFrom("Lab1Library.dll");
+        const string printObjectMethodName = "PrintObject";
+        const string CreateMethodName = "Create";
         Type type = assembly.GetType("Lab1Library.Service");
-        MethodInfo methodInfo = type.GetMethod("Create");
+        MethodInfo methodInfo = type.GetMethod(CreateMethodName);
         object typeInstance = Activator.CreateInstance(type);
         object[] parameters = new object[methodInfo.GetParameters().Length];
         parameters[0] = "servis";
@@ -160,7 +162,7 @@ public class EntryPoint
 
         var temp = methodInfo.Invoke(typeInstance, parameters);
 
-        methodInfo = type.GetMethod("PrintObject");
+        methodInfo = type.GetMethod(printObjectMethodName);
         methodInfo.Invoke(temp, null);
     }
 }
